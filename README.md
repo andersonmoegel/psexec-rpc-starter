@@ -1,70 +1,71 @@
-# Script to Enable RPC Service on Multiple Machines
+# 🖧 Script para Ativar o Serviço RPC em Múltiplas Máquinas
 
-This script uses **PsExec** to enable the RPC (Remote Procedure Call) service on several remote machines listed in a text file.
+![Batchfile](https://img.shields.io/badge/Batch-Script-4D4D4D?style=flat&logo=windowsterminal&logoColor=white)
+![Platform](https://img.shields.io/badge/Platform-Windows-0078D6?style=flat&logo=windows&logoColor=white)
 
-## 📌 Prerequisites
+Este script usa o PsExec para ativar o serviço RPC (Remote Procedure Call) em várias máquinas remotas listadas em um arquivo de texto.
 
-- **PsExec**: Make sure PsExec is available in your `PATH` or in the same directory as the script.
-- **Administrative Permissions**: You need administrative rights on the remote machines.
+## 📌 Pré-requisitos
 
-## 📄 Text File with Computer List
+- **PsExec:** certifique-se de que o PsExec esteja disponível no PATH ou no mesmo diretório do script.
+- **Permissões administrativas:** você precisa de direitos administrativos nas máquinas remotas.
 
-Create a text file named `computers.txt` containing the machine names or IP addresses, one per line. Example:
+## 📄 Arquivo de Texto com a Lista de Computadores
+
+Crie um arquivo de texto chamado `computers.txt` contendo os nomes das máquinas ou endereços IP, um por linha. Exemplo:
 
 ```
-COMPUTER1
-COMPUTER2
+COMPUTADOR1
+COMPUTADOR2
 192.168.1.10
 ```
 
-## ⚙️ Batch Script
+## ⚙️ Script Batch
 
-Create a batch script file named `enable_rpc.bat` with the following content:
+Crie um arquivo de script batch chamado `enable_rpc.bat` com o seguinte conteúdo:
 
-```cmd
+```bat
 @echo off
 for /f %%i in (computers.txt) do (
-    echo Enabling RPC on %%i
+    echo Ativando RPC em %%i
     psexec \\%%i -s -d sc config RpcSs start= auto
     psexec \\%%i -s -d net start RpcSs
 )
 ```
 
-## 🚀 Running the Script
+## 🚀 Executando o Script
 
-### 1️⃣ Open Command Prompt as Administrator
+### 1️⃣ Abra o Prompt de Comando como Administrador
 
-Right-click the Command Prompt icon and select **"Run as administrator"**.
+Clique com o botão direito no ícone do Prompt de Comando e selecione "Executar como administrador".
 
-### 2️⃣ Navigate to the Script Directory
+### 2️⃣ Navegue até o Diretório do Script
 
-Use the `cd` command to go to the directory where PsExec and the script are located. Example:
+Use o comando `cd` para ir até o diretório onde o PsExec e o script estão localizados. Exemplo:
 
-```cmd
-cd C:\path\to\directory
+```
+cd C:\caminho\para\diretorio
 ```
 
-### 3️⃣ Run the Script
+### 3️⃣ Execute o Script
 
-Execute the batch script using PsExec:
+Execute o script batch usando o PsExec:
 
-```cmd
-psexec @computers.txt -s -d C:\path\to\directory\enable_rpc.bat
+```
+psexec @computers.txt -s -d C:\caminho\para\diretorio\enable_rpc.bat
 ```
 
-## 📝 Command Explanation
+## 📝 Explicação dos Comandos
 
-- **`psexec`**: Starts PsExec.
-- **`-s`**: Runs the process under the System account.
-- **`-d`**: Doesn’t wait for the process to finish (non-interactive).
-- **`@computers.txt`**: Specifies a text file with a list of computers to run the command on.
-- **`sc config RpcSs start= auto`**: Sets the RPC service to start automatically.
-- **`net start RpcSs`**: Starts the RPC service.
+- `psexec`: inicia o PsExec.
+- `-s`: executa o processo com a conta System.
+- `-d`: não espera o processo finalizar (não interativo).
+- `@computers.txt`: especifica um arquivo de texto com a lista de computadores para executar o comando.
+- `sc config RpcSs start= auto`: define o serviço RPC para iniciar automaticamente.
+- `net start RpcSs`: inicia o serviço RPC.
 
-## 🔍 Final Considerations
+## 🔍 Considerações Finais
 
-Ensure PsExec is configured properly and that you have the required permissions to execute remote commands on the listed machines. If issues arise, check your network and firewall settings.
+Certifique-se de que o PsExec esteja configurado corretamente e que você tenha as permissões necessárias para executar comandos remotos nas máquinas listadas. Se houver problemas, verifique as configurações de rede e firewall.
 
----
-
-📌 **Tip**: If you're having trouble, use the command `psexec \\COMPUTERNAME cmd` to test the remote connection before running the full script.
+📌 **Dica:** se estiver com dificuldades, use o comando `psexec \\NOMEDOCOMPUTADOR cmd` para testar a conexão remota antes de executar o script completo.
